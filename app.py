@@ -20,7 +20,7 @@ def index():
         computer_move = "You lost"
         
     if request.method == 'POST':
-        move = request.form['move']
+        move = request.form['move'].lower()
         while move not in pos.gen_moves():
             match = re.match('([a-h][1-8])'*2, move)
             if match:
