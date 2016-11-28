@@ -60,3 +60,5 @@ def reset():
     searcher = Searcher()
     all_moves = ''
     steps = 1
+
+    return "reset"
