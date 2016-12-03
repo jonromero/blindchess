@@ -19,8 +19,8 @@
 				<div class="agile-row">
 					<h3>Next move</h3> 
 					<div class="login-agileits-top"> 	
-						<form action="/" method="post"> 
-							<input type="text" class="name" name="move" required=""/>
+						<form action="/" name="theform" method="post"> 
+							<input type="text" id="move" class="name" name="move" required=""/>
 						</form> 	
 					</div>  
 				</div>  
@@ -29,7 +29,7 @@
 		</div>	
 	</div>	
 <br /> <br />
-    <h2>Previous moves: {{ moves }}</h2>
+    <h2>Last move: {{ move }}</h2>
 
     <table width="" class='grid' cellspacing="" cellpadding="" border="">
       <tr>
@@ -63,39 +63,45 @@
         <td>K</td>
       </tr>
       <tr>
-        <td>Erase</td>
+        <td onclick="document.getElementById('move').value = '';">Erase</td>
+        <td></td>
+        <td></td>
+        <td onclick="document.theform.submit();">Submit</td>
       </tr>
      </table>
 
+    <h2 >All moves</h2>
+    <a href="#" onclick="document.getElementsByClassName('all_moves')[0].style.visibility='visible';">Click to show</a>
+    <div class="all_moves">
+      {{ moves }}
+    </div>
 <script type="text/javascript">
 var lastClicked;
-var grid = clickableGrid(6, 4, function(el, row, col, i) {
+var grid = clickableGrid(function(el, row, col, i) {
   console.log("You clicked on element:", el);
   console.log("You clicked on row:", row);
   console.log("You clicked on col:", col);
   console.log("You clicked on item #:", i);
+  
+  document.getElementById('move').value += i;
 
   el.className = 'clicked';
   if (lastClicked) lastClicked.className = '';
   lastClicked = el;
 });
 
-document.body.appendChild(grid);
-
-function clickableGrid(rows, cols, callback) {
+function clickableGrid(callback) {
   var i = 0;
-  var grid = document.createElement('table');
-  grid.className = 'grid';
-  for (var r = 0; r < rows; ++r) {
-    var tr = grid.appendChild(document.createElement('tr'));
-    for (var c = 0; c < cols; ++c) {
-      var cell = tr.appendChild(document.createElement('td'));
-      cell.innerHTML = ++i;
-      cell.addEventListener('click', (function(el, r, c, i) {
+  var grid = document.getElementsByTagName("table")[0];
+  var rows = grid.rows;
+
+  for (var r = 0; r < rows.length-1; ++r) {
+    for (var c = 0; c < rows[r].cells.length; ++c) {
+      grid.rows[r].cells[c].addEventListener('click', (function(el, r, c, c) {
         return function() {
-          callback(el, r, c, i);
+          callback(el, r, c, c);
         }
-      })(cell, r, c, i), false);
+      })(c, r, c, rows[r].cells[c].innerHTML), false);
     }
   }
   return grid;

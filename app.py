@@ -44,8 +44,8 @@ def index():
 
         all_moves += computer_move + ' '
 
-
-    return render_template('index.html', moves=all_moves)
+    last_move = all_moves.split(" ")[-2] if all_moves != '' else ''
+    return render_template('index.html', moves=all_moves, move=last_move)
 
 
     

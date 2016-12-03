@@ -377,3 +377,7 @@ h1 {
     background-color:yellow;
     font-weight:bold; color:red;
 }
+
+.all_moves {
+    visibility:hidden;
+}
