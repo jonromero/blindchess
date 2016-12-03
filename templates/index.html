@@ -30,5 +30,77 @@
 	</div>	
 <br /> <br />
     <h2>Previous moves: {{ moves }}</h2>
+
+    <table width="" class='grid' cellspacing="" cellpadding="" border="">
+      <tr>
+        <td>a</td>
+        <td>b</td>
+        <td>c</td>
+        <td>d</td>
+      </tr>
+      <tr>
+        <td>e</td>
+        <td>f</td>
+        <td>g</td>
+        <td>h</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+        <td>8</td>
+      </tr>
+      <tr>
+        <td>N</td>
+        <td>B</td>
+        <td>Q</td>
+        <td>K</td>
+      </tr>
+      <tr>
+        <td>Erase</td>
+      </tr>
+     </table>
+
+<script type="text/javascript">
+var lastClicked;
+var grid = clickableGrid(6, 4, function(el, row, col, i) {
+  console.log("You clicked on element:", el);
+  console.log("You clicked on row:", row);
+  console.log("You clicked on col:", col);
+  console.log("You clicked on item #:", i);
+
+  el.className = 'clicked';
+  if (lastClicked) lastClicked.className = '';
+  lastClicked = el;
+});
+
+document.body.appendChild(grid);
+
+function clickableGrid(rows, cols, callback) {
+  var i = 0;
+  var grid = document.createElement('table');
+  grid.className = 'grid';
+  for (var r = 0; r < rows; ++r) {
+    var tr = grid.appendChild(document.createElement('tr'));
+    for (var c = 0; c < cols; ++c) {
+      var cell = tr.appendChild(document.createElement('td'));
+      cell.innerHTML = ++i;
+      cell.addEventListener('click', (function(el, r, c, i) {
+        return function() {
+          callback(el, r, c, i);
+        }
+      })(cell, r, c, i), false);
+    }
+  }
+  return grid;
+}
+                         
+</script>
 </body>
 </html>
